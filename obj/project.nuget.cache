@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "ycOx7oSQZ1g=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida y  paralela\\san_camton\\san_camton\\san_camton.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.10\\microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"Microsoft.OpenApi\" 2.0.0 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
+      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida y  paralela\\san_camton\\san_camton\\san_camton.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida y  paralela\\san_camton\\san_camton\\san_camton.csproj",
+      "libraryId": "Microsoft.OpenApi",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

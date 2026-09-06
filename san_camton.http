@@ -1,0 +1,6 @@
+@san_camton_HostAddress = http://localhost:5112
+
+GET {{san_camton_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
