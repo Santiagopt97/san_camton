@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("san_camton")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1dd2b1432230ea62099ba6e6abde413b26175d77")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+749abe8cb000492f937fdf997873affb4f43ecdf")]
 [assembly: System.Reflection.AssemblyProductAttribute("san_camton")]
 [assembly: System.Reflection.AssemblyTitleAttribute("san_camton")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

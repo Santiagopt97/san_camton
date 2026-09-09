@@ -1,21 +1,53 @@
 {
   "version": 2,
-  "dgSpecHash": "ycOx7oSQZ1g=",
-  "success": true,
-  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida y  paralela\\san_camton\\san_camton\\san_camton.csproj",
+  "dgSpecHash": "OOqYtVNA6JQ=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ASUS\\.nuget\\packages\\dotnetenv\\3.2.0\\dotnetenv.3.2.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\11.0.0-rc.1.26425.128\\microsoft.aspnetcore.authentication.jwtbearer.11.0.0-rc.1.26425.128.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.10\\microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore\\11.0.0-rc.1.26425.128\\microsoft.entityframeworkcore.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.design\\11.0.0-rc.1.26425.128\\microsoft.entityframeworkcore.design.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\11.0.0-rc.1.26425.128\\microsoft.entityframeworkcore.tools.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.extensions.apidescription.server\\10.0.0\\microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\superpower\\3.0.0\\superpower.3.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore\\10.2.3\\swashbuckle.aspnetcore.10.2.3.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.2.3\\swashbuckle.aspnetcore.swagger.10.2.3.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\10.2.3\\swashbuckle.aspnetcore.swaggergen.10.2.3.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.2.3\\swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512"
   ],
   "logs": [
     {
-      "code": "NU1903",
-      "level": "Warning",
-      "message": "El paquete \"Microsoft.OpenApi\" 2.0.0 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
-      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida y  paralela\\san_camton\\san_camton\\san_camton.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida y  paralela\\san_camton\\san_camton\\san_camton.csproj",
-      "libraryId": "Microsoft.OpenApi",
+      "code": "NU1202",
+      "level": "Error",
+      "message": "Package Microsoft.AspNetCore.Authentication.JwtBearer 11.0.0-rc.1.26425.128 is not compatible with net10.0 (.NETCoreApp,Version=v10.0). Package Microsoft.AspNetCore.Authentication.JwtBearer 11.0.0-rc.1.26425.128 supports: net11.0 (.NETCoreApp,Version=v11.0)",
+      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
+      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
+      "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "Package Microsoft.EntityFrameworkCore 11.0.0-rc.1.26425.128 is not compatible with net10.0 (.NETCoreApp,Version=v10.0). Package Microsoft.EntityFrameworkCore 11.0.0-rc.1.26425.128 supports: net11.0 (.NETCoreApp,Version=v11.0)",
+      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
+      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
+      "libraryId": "Microsoft.EntityFrameworkCore",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "Package Microsoft.EntityFrameworkCore.Design 11.0.0-rc.1.26425.128 is not compatible with net10.0 (.NETCoreApp,Version=v10.0). Package Microsoft.EntityFrameworkCore.Design 11.0.0-rc.1.26425.128 supports: net11.0 (.NETCoreApp,Version=v11.0)",
+      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
+      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
+      "libraryId": "Microsoft.EntityFrameworkCore.Design",
       "targetGraphs": [
         "net10.0"
       ]
