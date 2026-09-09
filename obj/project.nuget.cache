@@ -1,56 +1,52 @@
 {
   "version": 2,
-  "dgSpecHash": "OOqYtVNA6JQ=",
-  "success": false,
+  "dgSpecHash": "aiNEuNqoL/g=",
+  "success": true,
   "projectFilePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ASUS\\.nuget\\packages\\dotnetenv\\3.2.0\\dotnetenv.3.2.0.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\11.0.0-rc.1.26425.128\\microsoft.aspnetcore.authentication.jwtbearer.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.10\\microsoft.aspnetcore.authentication.jwtbearer.10.0.10.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.10\\microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore\\11.0.0-rc.1.26425.128\\microsoft.entityframeworkcore.11.0.0-rc.1.26425.128.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.design\\11.0.0-rc.1.26425.128\\microsoft.entityframeworkcore.design.11.0.0-rc.1.26425.128.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\11.0.0-rc.1.26425.128\\microsoft.entityframeworkcore.tools.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.bcl.cryptography\\10.0.2\\microsoft.bcl.cryptography.10.0.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.11.0\\microsoft.codeanalysis.analyzers.3.11.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.codeanalysis.common\\5.0.0\\microsoft.codeanalysis.common.5.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.codeanalysis.csharp\\5.0.0\\microsoft.codeanalysis.csharp.5.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.codeanalysis.csharp.workspaces\\5.0.0\\microsoft.codeanalysis.csharp.workspaces.5.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\5.0.0\\microsoft.codeanalysis.workspaces.common.5.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.codeanalysis.workspaces.msbuild\\5.0.0\\microsoft.codeanalysis.workspaces.msbuild.5.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.10\\microsoft.entityframeworkcore.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.10\\microsoft.entityframeworkcore.abstractions.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.10\\microsoft.entityframeworkcore.analyzers.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.design\\10.0.10\\microsoft.entityframeworkcore.design.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\10.0.10\\microsoft.entityframeworkcore.relational.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\10.0.10\\microsoft.entityframeworkcore.tools.10.0.10.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.extensions.apidescription.server\\10.0.0\\microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.extensions.dependencymodel\\10.0.10\\microsoft.extensions.dependencymodel.10.0.10.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.19.2\\microsoft.identitymodel.abstractions.8.19.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.19.2\\microsoft.identitymodel.jsonwebtokens.8.19.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.identitymodel.logging\\8.19.2\\microsoft.identitymodel.logging.8.19.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.identitymodel.protocols\\8.19.2\\microsoft.identitymodel.protocols.8.19.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\8.19.2\\microsoft.identitymodel.protocols.openidconnect.8.19.2.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.19.2\\microsoft.identitymodel.tokens.8.19.2.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.visualstudio.solutionpersistence\\1.0.52\\microsoft.visualstudio.solutionpersistence.1.0.52.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\superpower\\3.0.0\\superpower.3.0.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore\\10.2.3\\swashbuckle.aspnetcore.10.2.3.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.2.3\\swashbuckle.aspnetcore.swagger.10.2.3.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\10.2.3\\swashbuckle.aspnetcore.swaggergen.10.2.3.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.2.3\\swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512"
+    "C:\\Users\\ASUS\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.2.3\\swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.composition\\9.0.0\\system.composition.9.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.composition.attributedmodel\\9.0.0\\system.composition.attributedmodel.9.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.composition.convention\\9.0.0\\system.composition.convention.9.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.composition.hosting\\9.0.0\\system.composition.hosting.9.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.composition.runtime\\9.0.0\\system.composition.runtime.9.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.composition.typedparts\\9.0.0\\system.composition.typedparts.9.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.19.2\\system.identitymodel.tokens.jwt.8.19.2.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.AspNetCore.Authentication.JwtBearer 11.0.0-rc.1.26425.128 is not compatible with net10.0 (.NETCoreApp,Version=v10.0). Package Microsoft.AspNetCore.Authentication.JwtBearer 11.0.0-rc.1.26425.128 supports: net11.0 (.NETCoreApp,Version=v11.0)",
-      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
-      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
-      "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.EntityFrameworkCore 11.0.0-rc.1.26425.128 is not compatible with net10.0 (.NETCoreApp,Version=v10.0). Package Microsoft.EntityFrameworkCore 11.0.0-rc.1.26425.128 supports: net11.0 (.NETCoreApp,Version=v11.0)",
-      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
-      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
-      "libraryId": "Microsoft.EntityFrameworkCore",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.EntityFrameworkCore.Design 11.0.0-rc.1.26425.128 is not compatible with net10.0 (.NETCoreApp,Version=v10.0). Package Microsoft.EntityFrameworkCore.Design 11.0.0-rc.1.26425.128 supports: net11.0 (.NETCoreApp,Version=v11.0)",
-      "projectPath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
-      "filePath": "C:\\Users\\ASUS\\Desktop\\Poli\\distribuida\\san_camton\\san_camton.csproj",
-      "libraryId": "Microsoft.EntityFrameworkCore.Design",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  "logs": []
 }
