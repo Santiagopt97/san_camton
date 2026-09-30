@@ -26,7 +26,7 @@ td{padding:10px;border-bottom:1px solid var(--bg2)}
 .badge{padding:2px 10px;border-radius:99px;font-size:.8rem;color:#fff}
 .badge.ok{background:var(--ok)}.badge.off{background:var(--muted)}
 .actions{white-space:nowrap}.actions a,.link{color:var(--primary);margin-right:12px;background:none;border:0;cursor:pointer;font:inherit;text-decoration:underline}
-.link.danger{color:var(--err)}
+.link.danger{color:var(--err)}.link:disabled{opacity:.4;cursor:not-allowed;text-decoration:none}
 .error{background:#f6e3e2;color:var(--err);padding:10px 14px;border-radius:8px}
 .pager{display:flex;justify-content:space-between;align-items:center;margin-top:16px;color:var(--muted)}
 .form h2{margin-top:0;color:var(--primary);font-family:Georgia,serif}
