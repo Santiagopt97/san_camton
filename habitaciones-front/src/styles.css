@@ -1,0 +1,12 @@
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{display:flex;align-items:center;gap:8px;border:2px solid transparent;cursor:pointer;font:inherit;color:var(--text);padding:14px 18px}
+.stat strong{font-size:1.4rem;color:var(--primary)}.stat small{color:var(--muted)}
+.stat.sel{border-color:var(--accent)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
+.dot.Disponible{background:var(--ok)}.dot.Ocupada{background:var(--primary)}
+.dot.Limpieza{background:var(--accent)}.dot.Mantenimiento{background:var(--err)}
+select.estado{width:auto;padding:4px 8px;border-radius:99px;font-size:.85rem;border:1px solid var(--bg2)}
+select.estado.Disponible{color:var(--ok);border-color:var(--ok)}
+select.estado.Mantenimiento{color:var(--err);border-color:var(--err)}
+tr.inactive td{opacity:.5}
+@media(max-width:640px){.summary{grid-template-columns:1fr 1fr}}
