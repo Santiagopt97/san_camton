@@ -11,6 +11,10 @@ namespace HabitacionesApi.Controllers;
 [Route("api/habitaciones")]
 public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
 {
+    private const string EstadoOcupada = "Ocupada";
+    private const string MensajeHuespedAlojado =
+        "No se puede cambiar el estado: la habitación tiene un huésped alojado (check-in). Registra primero el check-out.";
+
     [HttpGet]
     public async Task<IActionResult> Listar([FromQuery] string? q, [FromQuery] string? estado,
         [FromQuery] string? tipo, [FromQuery] bool soloActivas = false,
@@ -75,8 +79,15 @@ public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
         if (h is null) return NotFound();
         if (await db.Habitaciones.AnyAsync(x => x.Numero == dto.Numero.Trim() && x.Id != id))
             return Conflict(new { message = "Ya existe otra habitación con ese número." });
-        if (!dto.Activo && h.Activo && await TieneReservasVigentes(id))
-            return Conflict(new { message = "No se puede desactivar: la habitación tiene reservas vigentes." });
+        if (dto.Estado != h.Estado && await HuespedAlojado(h))
+            return Conflict(new { message = MensajeHuespedAlojado });
+        if (!dto.Activo && h.Activo)
+        {
+            if (h.Estado == EstadoOcupada || dto.Estado == EstadoOcupada)
+                return Conflict(new { message = "No se puede desactivar: la habitación está ocupada." });
+            if (await TieneReservasVigentes(id))
+                return Conflict(new { message = "No se puede desactivar: la habitación tiene reservas vigentes." });
+        }
         Map(dto, h);
         await db.SaveChangesAsync();
         return Ok(h);
@@ -90,6 +101,10 @@ public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
             return BadRequest(new { message = "Estado no válido." });
         var h = await db.Habitaciones.FindAsync(id);
         if (h is null) return NotFound();
+        if (!h.Activo)
+            return Conflict(new { message = "No se puede cambiar el estado de una habitación dada de baja." });
+        if (dto.Estado != h.Estado && await HuespedAlojado(h))
+            return Conflict(new { message = MensajeHuespedAlojado });
         h.Estado = dto.Estado;
         await db.SaveChangesAsync();
         return Ok(h);
@@ -102,12 +117,18 @@ public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
     {
         var h = await db.Habitaciones.FindAsync(id);
         if (h is null) return NotFound();
+        if (h.Estado == EstadoOcupada)
+            return Conflict(new { message = "No se puede dar de baja: la habitación está ocupada." });
         if (await TieneReservasVigentes(id))
             return Conflict(new { message = "No se puede dar de baja: la habitación tiene reservas vigentes." });
         h.Activo = false;
         await db.SaveChangesAsync();
         return NoContent();
     }
+
+    // Una habitación Ocupada con reserva en Check-in solo se libera con el check-out desde Reservas
+    private async Task<bool> HuespedAlojado(Habitacion h) =>
+        h.Estado == EstadoOcupada && await db.Database.SqlQuery<int>($"select count(*)::int as \"Value\" from public.reservas where habitacion_id = {h.Id} and estado = 'Check-in'").SingleAsync() > 0;
 
     private async Task<bool> TieneReservasVigentes(Guid id) =>
         await db.Database.SqlQuery<int>($"select count(*)::int as \"Value\" from public.reservas where habitacion_id = {id} and estado in ('Confirmada','Check-in') and fecha_salida >= current_date").SingleAsync() > 0;

@@ -53,7 +53,7 @@ export default function HabitacionesList({ perfil }) {
     ) },
     { header: '', className: 'actions', cell: (h) => (<>
       <Link to={`/habitaciones/${h.id}`}>Editar</Link>
-      {perfil === 'admin' && h.activo && <button className="link danger" onClick={() => setABaja(h)}>Dar de baja</button>}
+      {perfil === 'admin' && h.activo && <button className="link danger" disabled={h.estado === 'Ocupada'} title={h.estado === 'Ocupada' ? 'No se puede dar de baja una habitación ocupada' : undefined} onClick={() => setABaja(h)}>Dar de baja</button>}
     </>) },
   ]
 
