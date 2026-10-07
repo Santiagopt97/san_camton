@@ -34,6 +34,7 @@ public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
         var total = await query.CountAsync();
         var items = await query.OrderBy(h => h.Piso).ThenBy(h => h.Numero)
             .Skip((Math.Max(page, 1) - 1) * size).Take(size).ToListAsync();
+        await CargarImagenes(items);
         return Ok(new { total, page, size, items });
     }
 
@@ -53,7 +54,9 @@ public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
     public async Task<IActionResult> Obtener(Guid id)
     {
         var h = await db.Habitaciones.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        return h is null ? NotFound() : Ok(h);
+        if (h is null) return NotFound();
+        await CargarImagenes([h]);
+        return Ok(h);
     }
 
     [HttpPost]
@@ -127,6 +130,17 @@ public class HabitacionesController(HabitacionesDbContext db) : ControllerBase
     }
 
     // Una habitación Ocupada con reserva en Check-in solo se libera con el check-out desde Reservas
+    // Rellena `Imagenes` (ordenadas) de las habitaciones dadas, con una sola consulta
+    private async Task CargarImagenes(IReadOnlyCollection<Habitacion> habitaciones)
+    {
+        if (habitaciones.Count == 0) return;
+        var ids = habitaciones.Select(h => h.Id).ToList();
+        var filas = await db.HabitacionImagenes.AsNoTracking().Where(i => ids.Contains(i.HabitacionId))
+            .OrderBy(i => i.Orden).ThenBy(i => i.CreadoEn).ToListAsync();
+        var porHabitacion = filas.ToLookup(i => i.HabitacionId, i => new ImagenVista(i.Id, i.Url, i.Orden));
+        foreach (var h in habitaciones) h.Imagenes = porHabitacion[h.Id].ToList();
+    }
+
     private async Task<bool> HuespedAlojado(Habitacion h) =>
         h.Estado == EstadoOcupada && await db.Database.SqlQuery<int>($"select count(*)::int as \"Value\" from public.reservas where habitacion_id = {h.Id} and estado = 'Check-in'").SingleAsync() > 0;
 
