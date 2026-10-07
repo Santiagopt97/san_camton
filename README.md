@@ -54,7 +54,7 @@ cd reservas-front && npm install && npm run dev
 cd landing-front && npm install && npm run dev
 ```
 
-**Landing pública** (http://localhost:5177): muestra las habitaciones activas por tipo, con fotos y precio «desde», y lleva a `/login` y `/registro` de `auth-front`. Lee `GET /api/publico/habitaciones`, un endpoint anónimo que solo devuelve tipo, capacidad, precio desde e imágenes (nunca números de habitación, estados ni ids). Los textos, servicios y datos de contacto se editan en `landing-front/src/contenido.js`; las variables (`VITE_API_URL`, `VITE_APP_URL`) están en su `.env.example`. `habitaciones-api` debe aceptar el origen de la landing en `CORS_ORIGINS` (ver su `.env.example`). Pruebas: `cd landing-front && npm test`.
+**Landing pública** (http://localhost:5177): muestra las habitaciones activas por tipo, con fotos y precio «desde», y lleva a `/login` y `/registro` de `auth-front`. Lee `GET /api/publico/habitaciones`, un endpoint anónimo que solo devuelve tipo, capacidad, precio desde e imágenes (nunca números de habitación, estados ni ids). Los textos, servicios y datos de contacto se editan en `landing-front/src/contenido.js`; las variables (`VITE_API_URL`, `VITE_APP_URL`) están en su `.env.example`. `habitaciones-api` acepta el origen de la landing (por defecto `http://localhost:5177`, variable `CORS_ORIGINS_PUBLICO`) solo para ese endpoint: solo lectura (GET) y sin credenciales; el CORS con sesión (`CORS_ORIGINS`) sigue siendo solo el del front de habitaciones. La lista se guarda en memoria 60 segundos. Pruebas: `cd landing-front && npm test`.
 
 ### 5. Probar
 Abrir http://localhost:5173 → login → Home → módulo Clientes.

@@ -3,6 +3,7 @@ using HabitacionesApi.Controllers;
 using HabitacionesApi.Data;
 using HabitacionesApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HabitacionesApi.Tests;
 
@@ -21,9 +22,11 @@ public class PublicoTests
         return h;
     }
 
+    private static IMemoryCache Cache() => new MemoryCache(new MemoryCacheOptions());
+
     private static async Task<List<HabitacionPublica>> Listar(HabitacionesDbContext db)
     {
-        var r = await new PublicoController(db).Listar(default);
+        var r = await new PublicoController(db, Cache()).Listar(default);
         return Assert.IsAssignableFrom<IEnumerable<HabitacionPublica>>(Assert.IsType<OkObjectResult>(r).Value).ToList();
     }
 
@@ -118,5 +121,23 @@ public class PublicoTests
         Assert.DoesNotContain("Ocupada", json);
         Assert.DoesNotContain("descripción interna", json);
         // La URL pública de cada imagen lleva el id de la habitación en su ruta (así se guardan en el bucket): no se expone como campo, pero va dentro de la URL
+    }
+
+    // Review: la caché de 60 s debe existir en el servidor, no solo en las cabeceras (un cliente puede ignorarlas)
+    [Fact]
+    public async Task La_lista_se_calcula_una_vez_por_minuto_y_se_sirve_de_la_cache()
+    {
+        var db = Datos.NuevoDb();
+        var cache = Cache();
+        Crear(db, "Doble", 2, 180000);
+        var controlador = new PublicoController(db, cache);
+        Assert.Single(Assert.IsAssignableFrom<IEnumerable<HabitacionPublica>>(Assert.IsType<OkObjectResult>(await controlador.Listar(default)).Value));
+
+        Crear(db, "Suite", 3, 420000); // cambia la base, pero la lista guardada sigue vigente
+        Assert.Single(Assert.IsAssignableFrom<IEnumerable<HabitacionPublica>>(Assert.IsType<OkObjectResult>(await controlador.Listar(default)).Value));
+
+        // con una caché nueva (o pasado el minuto) se ve el cambio
+        var fresco = new PublicoController(db, Cache());
+        Assert.Equal(2, Assert.IsAssignableFrom<IEnumerable<HabitacionPublica>>(Assert.IsType<OkObjectResult>(await fresco.Listar(default)).Value).Count());
     }
 }

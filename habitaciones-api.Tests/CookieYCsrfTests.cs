@@ -28,7 +28,7 @@ public sealed class ApiFactory : WebApplicationFactory<Program>
         Fijar("SUPABASE_HOST", "localhost"); Fijar("SUPABASE_USER", "prueba"); Fijar("SUPABASE_PASSWORD", "prueba");
         Fijar("JWT_KEY", ClaveJwt);
         Fijar("SUPABASE_URL", "https://prueba.supabase.co"); Fijar("SUPABASE_SECRET_KEY", "prueba");
-        Fijar("CORS_ORIGINS", "http://localhost:5174,http://localhost:5177");
+        Fijar("CORS_ORIGINS", "http://localhost:5174");
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder) =>

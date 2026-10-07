@@ -1,4 +1,4 @@
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:76px} /* alto del encabezado fijo */
 .ln-main{max-width:none;margin:0;padding:0}
 .ln-encabezado{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 32px;background:var(--primary);color:#fff;border-bottom:3px solid var(--accent)}
 .ln-marca{font-family:Georgia,serif;font-size:1.4rem;color:#fff;text-decoration:none}
@@ -28,6 +28,7 @@ html{scroll-behavior:smooth}
 .ln-contacto a{color:var(--primary)}
 .ln-pie{background:var(--primary);color:var(--bg2);text-align:center;padding:20px 16px}
 @media(max-width:640px){
+  html{scroll-padding-top:150px} /* en móvil el encabezado ocupa más filas */
   .ln-encabezado{padding:12px 16px;justify-content:center}
   .ln-encabezado nav{order:3;width:100%;justify-content:center}
   .ln-portada{padding:64px 16px}

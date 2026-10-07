@@ -35,8 +35,9 @@ visitante a registrarse o iniciar sesión en la aplicación. Ocupará la raíz `
 - No se filtra por `estado` (una habitación ocupada hoy sigue siendo parte de la oferta). Las habitaciones dadas de baja no aparecen.
 - La respuesta lleva `Cache-Control: public, max-age=60`.
 - Es una lectura (GET): no necesita la cabecera anti-CSRF ni cookie. No hay límite de peticiones (queda fuera de alcance; la caché de 60 s lo mitiga).
-- CORS: `habitaciones-api` acepta también el origen de la landing. Por defecto `http://localhost:5174,http://localhost:5177`; `.env.example` igual.
-  En el `.env` local se añade ese origen (solo esa línea, sin secretos).
+- CORS: el endpoint público tiene su propia política (`publico`): acepta el origen de la landing (`CORS_ORIGINS_PUBLICO`, por defecto `http://localhost:5177`), solo `GET` y sin credenciales.
+  El CORS general de `habitaciones-api` (con sesión) sigue siendo únicamente el del front de habitaciones, para que la landing no pueda tocar las rutas con sesión (mínimo privilegio).
+- La respuesta varía por `Origin` (`Vary: Origin`) y la lista se guarda en memoria en el servidor 60 s, de modo que la base se consulta como mucho una vez por minuto.
 
 ### 2. `landing-front` (puerto 5177)
 - Estructura: `index.html` (con `lang="es"`, título, descripción y etiquetas Open Graph), `src/main.jsx`, `App.jsx`, `contenido.js`, `api.js`, `formato.js`
@@ -63,7 +64,7 @@ visitante a registrarse o iniciar sesión en la aplicación. Ocupará la raíz `
 - Verificación real: levantar los servicios, ver la landing con las fotos reales, comprobar que el endpoint no devuelve campos sensibles y entrar por **Reservar** al registro.
 
 ## Riesgos y límites
-- Endpoint público sin límite de peticiones: el contenido es mínimo y está en caché 60 s; un límite por IP queda para más adelante.
+- Endpoint público sin límite de peticiones: el contenido es mínimo y la lista se calcula como mucho una vez por minuto (caché en memoria del servidor); un límite por IP queda para más adelante.
 - El precio «desde» es el menor del tipo; si las habitaciones de un tipo tienen precios distintos, la tarjeta no los detalla.
 - La URL pública de cada imagen incluye en su ruta el id de la habitación (`.../habitaciones/{id}/{archivo}`, así se guardan en el bucket). El id no se expone como campo, pero sí es visible dentro de la URL; es un GUID aleatorio y las rutas autenticadas siguen exigiendo sesión.
 - Los datos de contacto y servicios son texto de ejemplo hasta que se reemplacen en `contenido.js`.

@@ -57,5 +57,35 @@ public class PublicoApiTests : IClassFixture<ApiFactory>
         var resp = await _c.SendAsync(r);
         Assert.Equal(HttpStatusCode.NoContent, resp.StatusCode);
         Assert.Equal("http://localhost:5177", resp.Headers.GetValues("Access-Control-Allow-Origin").Single());
+        Assert.False(resp.Headers.Contains("Access-Control-Allow-Credentials")); // la landing no necesita credenciales
+    }
+
+    // Review: una copia guardada sin Origin no debe servirse a la landing sin cabeceras CORS
+    [Fact]
+    public async Task La_respuesta_varia_por_origen_aunque_la_peticion_no_traiga_Origin()
+    {
+        var r = await _c.SendAsync(Get());
+        Assert.Contains("Origin", r.Headers.Vary);
+    }
+
+    // Review: mínimo privilegio: la landing solo puede LEER lo público, no modificar nada con la sesión del administrador
+    [Fact]
+    public async Task El_origen_de_la_landing_no_puede_hacer_peticiones_que_modifican_datos_ni_con_credenciales()
+    {
+        var casos = new List<(string Metodo, string Ruta)>
+        {
+            ("PATCH", $"/api/habitaciones/{Guid.NewGuid()}/estado"), ("POST", $"/api/habitaciones/{Guid.NewGuid()}/imagenes"), ("GET", "/api/habitaciones"),
+        };
+        // También sobre el propio endpoint público: allí solo se admite GET (política "publico")
+        foreach (var m in new[] { "POST", "PUT", "PATCH", "DELETE" }) casos.Add((m, "/api/publico/habitaciones"));
+
+        foreach (var (metodo, ruta) in casos)
+        {
+            var r = new HttpRequestMessage(HttpMethod.Options, ruta);
+            r.Headers.Add("Origin", "http://localhost:5177");
+            r.Headers.Add("Access-Control-Request-Method", metodo);
+            var resp = await _c.SendAsync(r);
+            Assert.False(resp.Headers.Contains("Access-Control-Allow-Origin"), $"{metodo} {ruta} no debería aceptar el origen de la landing");
+        }
     }
 }
