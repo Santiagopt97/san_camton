@@ -79,3 +79,6 @@ app.UseAuthentication(); app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/health", () => Results.Ok(new { status = "ok", service = "habitaciones-api" }));
 app.Run();
+
+// Permite que las pruebas arranquen la API completa (WebApplicationFactory)
+public partial class Program { }
