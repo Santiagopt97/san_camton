@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { validar, requerido, entre, hoyLocal, Alert, Button, Card, ConfirmModal, Field, FormActions, FormGrid, Input, Spinner } from 'hotel-ui'
+import { validar, requerido, entre, hoyLocal, Alert, Button, Card, Carousel, ConfirmModal, Field, FormActions, FormGrid, Input, SIN_FOTO, Spinner } from 'hotel-ui'
 import { miApi, cop } from '../api.js'
 
 const hoy = hoyLocal
@@ -63,6 +63,7 @@ export default function Reservar() {
           {libres.length === 0 && <Card>No hay habitaciones disponibles para esas fechas. Prueba con otras.</Card>}
           {libres.map((h) => (
             <Card key={h.id} className="room">
+              <Carousel images={h.imagenes} alt={`Habitación ${h.numero}`} fallback={SIN_FOTO} />
               <h3>Habitación {h.numero} · {h.tipo}</h3>
               <p>Hasta {h.capacidad} personas</p>
               <p><strong>{cop(h.precioNoche)}</strong> / noche</p>
