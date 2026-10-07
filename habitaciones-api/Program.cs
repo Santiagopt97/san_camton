@@ -1,4 +1,5 @@
 using HabitacionesApi.Data;
+using HotelSecurity;
 using HabitacionesApi.Services;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,6 +41,7 @@ b.Services.AddSwaggerGen();
 b.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
 {
     o.MapInboundClaims = false;
+    o.Events = new JwtBearerEvents { OnMessageReceived = TokenDesdeCookie.Leer };
     o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidIssuer = jwtIssuer, ValidAudience = jwtAudience,
@@ -50,7 +52,7 @@ b.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBeare
 b.Services.AddAuthorization();
 
 b.Services.AddCors(o => o.AddDefaultPolicy(p => p
-    .WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod()));
+    .WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
 var app = b.Build();
 app.UseSwagger();
@@ -72,6 +74,7 @@ app.UseExceptionHandler(a => a.Run(async ctx =>
     ctx.Response.StatusCode = status;
     await ctx.Response.WriteAsJsonAsync(new { message = msg });
 }));
+app.UseCsrfHeader();
 app.UseAuthentication(); app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/health", () => Results.Ok(new { status = "ok", service = "habitaciones-api" }));
