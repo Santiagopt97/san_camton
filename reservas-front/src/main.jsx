@@ -6,7 +6,10 @@ import 'hotel-ui/theme.css'
 import './styles.css'
 import { initSession, logout } from './auth.js'
 
-if (!initSession()) logout()
-else createRoot(document.getElementById('root')).render(
-  <BrowserRouter><App /></BrowserRouter>
-)
+// Se pregunta a auth-api quién es el usuario antes de dibujar; sin sesión se vuelve al login
+initSession().then((haySesion) => {
+  if (!haySesion) return logout()
+  createRoot(document.getElementById('root')).render(
+    <BrowserRouter><App /></BrowserRouter>
+  )
+})

@@ -1,19 +1,7 @@
-import { extraerError, fetchSeguro } from 'hotel-ui'
-import { getToken, logout } from './auth.js'
+import { crearCliente } from 'hotel-ui'
+import { logout } from './auth.js'
 
-const BASE = import.meta.env.VITE_API_URL
-
-async function req(path, options = {}) {
-  const res = await fetchSeguro(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
-    ...options,
-  })
-  if (res.status === 401) return logout()
-  if (!res.ok) {
-    throw new Error(await extraerError(res))
-  }
-  return res.status === 204 ? null : res.json()
-}
+const { req } = crearCliente({ base: import.meta.env.VITE_API_URL, onNoAutorizado: logout })
 
 export const reservasApi = {
   listar: ({ q = '', estado = '', page = 1, size = 10 }) =>
