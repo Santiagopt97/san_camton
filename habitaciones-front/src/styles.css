@@ -9,3 +9,7 @@ select.estado.Disponible{color:var(--ok);border-color:var(--ok)}
 select.estado.Mantenimiento{color:var(--err);border-color:var(--err)}
 tr.inactive td{opacity:.5}
 @media(max-width:640px){.summary{grid-template-columns:1fr 1fr}}
+.thumb{width:120px}
+.thumb .carousel-btn{width:24px;height:24px;font-size:1rem}
+.thumb .carousel-dots{bottom:4px}
+.form + .form{margin-top:16px}
