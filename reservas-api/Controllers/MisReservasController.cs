@@ -30,7 +30,15 @@ public class MisReservasController(ReservasDbContext db, ReservaService svc) : C
             .OrderBy(h => h.PrecioNoche)
             .Select(h => new { h.Id, h.Numero, h.Tipo, h.Capacidad, h.PrecioNoche, noches, total = h.PrecioNoche * noches })
             .ToListAsync();
-        return Ok(libres);
+        var ids = libres.Select(h => h.Id).ToList();
+        var filas = await db.HabitacionImagenes.AsNoTracking().Where(i => ids.Contains(i.HabitacionId))
+            .OrderBy(i => i.Orden).ThenBy(i => i.CreadoEn).ToListAsync();
+        var urls = filas.ToLookup(i => i.HabitacionId, i => new { i.Url });
+        return Ok(libres.Select(h => new
+        {
+            h.Id, h.Numero, h.Tipo, h.Capacidad, h.PrecioNoche, h.noches, h.total,
+            imagenes = urls[h.Id].ToList(),
+        }));
     }
 
     [HttpGet]
