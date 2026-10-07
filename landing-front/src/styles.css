@@ -7,6 +7,9 @@ html{scroll-behavior:smooth}
 .ln-encabezado nav a:hover{color:#fff}
 .ln-acciones{display:flex;gap:10px}
 .ln-encabezado .btn.ghost{color:#fff}
+/* Los botones principales usan el acento: con el color del tema se confundirían con el fondo oscuro */
+.ln-encabezado .btn:not(.ghost),.ln-portada .btn{background:var(--accent);color:var(--primary);font-weight:600}
+.ln-encabezado .btn:not(.ghost):hover,.ln-portada .btn:hover{background:#d6ad6b}
 .ln-portada{background:linear-gradient(160deg,var(--primary) 55%,var(--secondary));color:#fff;text-align:center;padding:96px 16px}
 .ln-portada h1{margin:0 0 12px;font-family:Georgia,serif;font-size:2.6rem}
 .ln-portada p{max-width:560px;margin:0 auto 28px;color:var(--bg2);font-size:1.1rem}
