@@ -65,6 +65,7 @@ visitante a registrarse o iniciar sesión en la aplicación. Ocupará la raíz `
 ## Riesgos y límites
 - Endpoint público sin límite de peticiones: el contenido es mínimo y está en caché 60 s; un límite por IP queda para más adelante.
 - El precio «desde» es el menor del tipo; si las habitaciones de un tipo tienen precios distintos, la tarjeta no los detalla.
+- La URL pública de cada imagen incluye en su ruta el id de la habitación (`.../habitaciones/{id}/{archivo}`, así se guardan en el bucket). El id no se expone como campo, pero sí es visible dentro de la URL; es un GUID aleatorio y las rutas autenticadas siguen exigiendo sesión.
 - Los datos de contacto y servicios son texto de ejemplo hasta que se reemplacen en `contenido.js`.
 - SEO: al ser una aplicación de una sola página, el contenido de habitaciones se pinta en el navegador; el resto del texto sí está en el HTML inicial solo si se prerrenderiza (fuera de alcance).
 
