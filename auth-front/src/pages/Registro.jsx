@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import {
+  Alert, Button, Card, Field, Input, Select,
+  validar, requerido, documento, letras, email, telefono, password, maxLen,
+} from 'hotel-ui'
 import { registro } from '../api.js'
 import { saveSession, rutaPorPerfil } from '../session.js'
-import { validar, requerido, documento, letras, email, telefono, password, maxLen } from '../validators.js'
 
 const vacio = { tipoDocumento: 'CC', numeroDocumento: '', nombres: '', apellidos: '', email: '', telefono: '', password: '', confirmar: '' }
 const ESQUEMA = {
@@ -13,14 +16,6 @@ const ESQUEMA = {
   telefono: [telefono],
   password: [requerido(), password],
   confirmar: [requerido('Confirma tu contraseña'), (v, f) => (v !== f.password ? 'Las contraseñas no coinciden' : null)],
-}
-
-function Campo({ label, error, children }) {
-  return (
-    <label className={error ? 'has-error' : ''}>{label}{children}
-      {error && <small className="field-error" role="alert">{error}</small>}
-    </label>
-  )
 }
 
 export default function Registro() {
@@ -47,25 +42,23 @@ export default function Registro() {
 
   return (
     <div className="login-wrap">
-      <form className="card login" onSubmit={enviar} noValidate>
+      <Card as="form" className="login" onSubmit={enviar} noValidate>
         <h1>Crear cuenta</h1>
         <p className="sub">Regístrate para reservar tu estadía</p>
-        {error && <p className="error">{error}</p>}
-        <Campo label="Tipo de documento">
-          <select value={f.tipoDocumento} onChange={set('tipoDocumento')}>
-            {['CC', 'CE', 'TI', 'PA'].map((t) => <option key={t}>{t}</option>)}
-          </select>
-        </Campo>
-        <Campo label="Número de documento" error={errs.numeroDocumento}><input value={f.numeroDocumento} onChange={set('numeroDocumento')} /></Campo>
-        <Campo label="Nombres" error={errs.nombres}><input value={f.nombres} onChange={set('nombres')} /></Campo>
-        <Campo label="Apellidos" error={errs.apellidos}><input value={f.apellidos} onChange={set('apellidos')} /></Campo>
-        <Campo label="Correo" error={errs.email}><input type="email" value={f.email} onChange={set('email')} /></Campo>
-        <Campo label="Teléfono (opcional)" error={errs.telefono}><input value={f.telefono} onChange={set('telefono')} /></Campo>
-        <Campo label="Contraseña (8+ caracteres, mayúscula, minúscula y número)" error={errs.password}><input type="password" value={f.password} onChange={set('password')} /></Campo>
-        <Campo label="Confirmar contraseña" error={errs.confirmar}><input type="password" value={f.confirmar} onChange={set('confirmar')} /></Campo>
-        <button className="btn" disabled={loading}>{loading ? 'Creando…' : 'Crear cuenta'}</button>
+        <Alert>{error}</Alert>
+        <Field label="Tipo de documento">
+          <Select value={f.tipoDocumento} onChange={set('tipoDocumento')} options={['CC', 'CE', 'TI', 'PA']} />
+        </Field>
+        <Field label="Número de documento" error={errs.numeroDocumento}><Input value={f.numeroDocumento} onChange={set('numeroDocumento')} /></Field>
+        <Field label="Nombres" error={errs.nombres}><Input value={f.nombres} onChange={set('nombres')} /></Field>
+        <Field label="Apellidos" error={errs.apellidos}><Input value={f.apellidos} onChange={set('apellidos')} /></Field>
+        <Field label="Correo" error={errs.email}><Input type="email" value={f.email} onChange={set('email')} /></Field>
+        <Field label="Teléfono (opcional)" error={errs.telefono}><Input value={f.telefono} onChange={set('telefono')} /></Field>
+        <Field label="Contraseña (8+ caracteres, mayúscula, minúscula y número)" error={errs.password}><Input type="password" value={f.password} onChange={set('password')} /></Field>
+        <Field label="Confirmar contraseña" error={errs.confirmar}><Input type="password" value={f.confirmar} onChange={set('confirmar')} /></Field>
+        <Button disabled={loading}>{loading ? 'Creando…' : 'Crear cuenta'}</Button>
         <p className="sub"><Link to="/login">Ya tengo cuenta</Link></p>
-      </form>
+      </Card>
     </div>
   )
 }

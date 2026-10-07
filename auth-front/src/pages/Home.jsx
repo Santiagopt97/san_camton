@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { AppShell, Card } from 'hotel-ui'
 import { clearSession, getSession } from '../session.js'
 
 const CLIENTES = import.meta.env.VITE_CLIENTES_URL
@@ -24,25 +25,16 @@ export default function Home() {
   const abrir = (url) => { window.location.href = `${url}/#token=${encodeURIComponent(token)}` }
 
   return (
-    <>
-      <header className="topbar">
-        <h1>Hotel</h1>
-        <div>
-          <span>{usuario.nombre} · <em>{ETIQUETAS[usuario.perfil]}</em></span>
-          <button className="btn ghost light" onClick={salir}>Salir</button>
-        </div>
-      </header>
-      <main>
-        <h2>Bienvenido, {usuario.nombre}</h2>
-        <div className="modules">
-          {MODULOS.filter((m) => m.perfiles.includes(usuario.perfil)).map((m) => (
-            <button key={m.nombre} className="card module" disabled={!m.url} onClick={() => abrir(m.url)}>
-              <strong>{m.nombre}</strong><span>{m.desc}</span>
-              {!m.url && <small>Próximamente</small>}
-            </button>
-          ))}
-        </div>
-      </main>
-    </>
+    <AppShell section="Inicio" user={`${usuario.nombre} · ${ETIQUETAS[usuario.perfil]}`} onLogout={salir}>
+      <h2>Bienvenido, {usuario.nombre}</h2>
+      <div className="modules">
+        {MODULOS.filter((m) => m.perfiles.includes(usuario.perfil)).map((m) => (
+          <Card as="button" key={m.nombre} className="module" disabled={!m.url} onClick={() => abrir(m.url)}>
+            <strong>{m.nombre}</strong><span>{m.desc}</span>
+            {!m.url && <small>Próximamente</small>}
+          </Card>
+        ))}
+      </div>
+    </AppShell>
   )
 }

@@ -5,7 +5,6 @@
 .dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
 .dot.Disponible{background:var(--ok)}.dot.Ocupada{background:var(--primary)}
 .dot.Limpieza{background:var(--accent)}.dot.Mantenimiento{background:var(--err)}
-select.estado{width:auto;padding:4px 8px;border-radius:99px;font-size:.85rem;border:1px solid var(--bg2)}
 select.estado.Disponible{color:var(--ok);border-color:var(--ok)}
 select.estado.Mantenimiento{color:var(--err);border-color:var(--err)}
 tr.inactive td{opacity:.5}

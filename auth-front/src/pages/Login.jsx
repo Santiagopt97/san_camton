@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Alert, Button, Card, Field, Input } from 'hotel-ui'
 import { login } from '../api.js'
 import { saveSession, rutaPorPerfil } from '../session.js'
 
@@ -22,15 +23,15 @@ export default function Login() {
 
   return (
     <div className="login-wrap">
-      <form className="card login" onSubmit={enviar}>
+      <Card as="form" className="login" onSubmit={enviar}>
         <h1>Hotel</h1>
         <p className="sub">Ingresa con tu cuenta</p>
-        {error && <p className="error">{error}</p>}
-        <label>Correo<input type="email" required autoFocus value={email} onChange={(e) => setEmail(e.target.value)} /></label>
-        <label>Contraseña<input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></label>
-        <button className="btn" disabled={loading}>{loading ? 'Ingresando…' : 'Ingresar'}</button>
+        <Alert>{error}</Alert>
+        <Field label="Correo"><Input type="email" required autoFocus value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
+        <Field label="Contraseña"><Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></Field>
+        <Button disabled={loading}>{loading ? 'Ingresando…' : 'Ingresar'}</Button>
         <p className="sub"><Link to="/registro">¿Eres huésped? Crea tu cuenta</Link></p>
-      </form>
+      </Card>
     </div>
   )
 }

@@ -14,7 +14,7 @@ export default function Modal({ open, title, onClose, children, actions }) {
       <div className="modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
         {title && <h3>{title}</h3>}
         <div>{children}</div>
-        <div className="row-end">{actions ?? <Button variant="ghost" onClick={onClose}>Cerrar</Button>}</div>
+        <div className="row-end">{actions ?? <Button type="button" variant="ghost" onClick={onClose}>Cerrar</Button>}</div>
       </div>
     </div>
   )
@@ -24,8 +24,8 @@ export default function Modal({ open, title, onClose, children, actions }) {
 export function ConfirmModal({ open, title = 'Confirmar', message, confirmText = 'Confirmar', danger, onConfirm, onCancel }) {
   return (
     <Modal open={open} title={title} onClose={onCancel} actions={<>
-      <Button variant="ghost" onClick={onCancel}>Cancelar</Button>
-      <Button variant={danger ? 'danger' : ''} onClick={onConfirm}>{confirmText}</Button>
+      <Button type="button" variant="ghost" onClick={onCancel}>Cancelar</Button>
+      <Button type="button" variant={danger ? 'danger' : ''} onClick={onConfirm}>{confirmText}</Button>
     </>}>
       <p>{message}</p>
     </Modal>

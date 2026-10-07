@@ -29,7 +29,7 @@ export default function MisReservas() {
     { header: 'Total', cell: (r) => cop(r.total) },
     { header: 'Estado', cell: (r) => <Badge tone={tono[r.estado]}>{r.estado}</Badge> },
     { header: '', className: 'actions', cell: (r) => r.estado === 'Confirmada'
-      && <button className="link danger" onClick={() => setACancelar(r)}>Cancelar</button> },
+      && <Button variant="link danger" onClick={() => setACancelar(r)}>Cancelar</Button> },
   ]
 
   return (
