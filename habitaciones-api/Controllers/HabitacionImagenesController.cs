@@ -57,6 +57,43 @@ public class HabitacionImagenesController(HabitacionesDbContext db, IImagenStora
         return StatusCode(StatusCodes.Status201Created, new ImagenVista(img.Id, img.Url, img.Orden));
     }
 
+    [HttpDelete("{imagenId:guid}")]
+    public async Task<IActionResult> Borrar(Guid habitacionId, Guid imagenId, CancellationToken ct)
+    {
+        var error = await ValidarHabitacion(habitacionId, ct);
+        if (error is not null) return error;
+        var img = await db.HabitacionImagenes.FirstOrDefaultAsync(i => i.Id == imagenId && i.HabitacionId == habitacionId, ct);
+        if (img is null) return NotFound();
+
+        db.HabitacionImagenes.Remove(img);
+        await db.SaveChangesAsync(ct);
+        await IntentarBorrar(img.Ruta); // si falla o ya no existe, la fila ya no está: un objeto huérfano es inocuo
+
+        var restantes = await db.HabitacionImagenes.Where(i => i.HabitacionId == habitacionId)
+            .OrderBy(i => i.Orden).ThenBy(i => i.CreadoEn).ToListAsync(ct);
+        for (var n = 0; n < restantes.Count; n++) restantes[n].Orden = n;
+        await db.SaveChangesAsync(ct);
+        return NoContent();
+    }
+
+    [HttpPut("orden")]
+    public async Task<IActionResult> Reordenar(Guid habitacionId, OrdenImagenesDto dto, CancellationToken ct)
+    {
+        var error = await ValidarHabitacion(habitacionId, ct);
+        if (error is not null) return error;
+        var imagenes = await db.HabitacionImagenes.Where(i => i.HabitacionId == habitacionId).ToListAsync(ct);
+
+        // La lista debe ser exactamente una permutación de las imágenes de la habitación
+        var actuales = imagenes.Select(i => i.Id).OrderBy(x => x).ToList();
+        var pedidos = dto.Ids.OrderBy(x => x).ToList();
+        if (!actuales.SequenceEqual(pedidos))
+            return BadRequest(new { message = "La lista de imágenes no coincide con las de la habitación." });
+
+        for (var n = 0; n < dto.Ids.Count; n++) imagenes.First(i => i.Id == dto.Ids[n]).Orden = n;
+        await db.SaveChangesAsync(ct);
+        return Ok(imagenes.OrderBy(i => i.Orden).Select(i => new ImagenVista(i.Id, i.Url, i.Orden)).ToList());
+    }
+
     // 404 si no existe, 409 si está dada de baja; null si se puede modificar
     private async Task<IActionResult?> ValidarHabitacion(Guid id, CancellationToken ct)
     {
