@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using HotelSecurity;
 using System.Security.Claims;
 using System.Text;
 using AuthApi.Data;
@@ -23,7 +24,7 @@ public class AuthController(AuthDbContext db, IConfiguration cfg) : ControllerBa
         if (u is null || !u.Activo || !BCrypt.Net.BCrypt.Verify(dto.Password, u.PasswordHash))
             return Unauthorized(new { message = "Correo o contraseña incorrectos." });
 
-        return Ok(Emitir(u));
+        return IniciarSesion(u);
     }
 
     // Registro público: crea la cuenta de un huésped y su ficha de cliente
@@ -65,34 +66,44 @@ public class AuthController(AuthDbContext db, IConfiguration cfg) : ControllerBa
         };
         db.Usuarios.Add(u);
         await db.SaveChangesAsync();
-        return Ok(Emitir(u));
+        return IniciarSesion(u);
     }
 
-    private object Emitir(Usuario u)
+    // Pone la cookie de sesión y no devuelve ningún dato del usuario
+    private IActionResult IniciarSesion(Usuario u)
+    {
+        var (token, expira) = EmitirToken(u);
+        SesionCookie.Poner(Response, token, expira);
+        return NoContent();
+    }
+
+    // El token solo lleva lo que las APIs necesitan: quién es (sub), su perfil (role) y, si es huésped, su ficha (cliente_id)
+    private (string Token, DateTime Expira) EmitirToken(Usuario u)
     {
         var jwt = cfg.GetSection("Jwt");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
         var expira = DateTime.UtcNow.AddMinutes(jwt.GetValue("ExpiraMinutos", 120));
-        var claims = new List<Claim>
-        {
-            new("sub", u.Id.ToString()), new("name", u.Nombre), new("email", u.Email), new("role", u.Perfil),
-        };
+        var claims = new List<Claim> { new("sub", u.Id.ToString()), new("role", u.Perfil) };
         if (u.ClienteId is not null) claims.Add(new Claim("cliente_id", u.ClienteId.ToString()!));
         var token = new JwtSecurityToken(jwt["Issuer"], jwt["Audience"], claims,
             expires: expira, signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
-        return new
-        {
-            token = new JwtSecurityTokenHandler().WriteToken(token),
-            expira,
-            usuario = new { u.Id, u.Nombre, u.Email, u.Perfil },
-        };
+        return (new JwtSecurityTokenHandler().WriteToken(token), expira);
     }
 
+    // Quién soy: solo lo necesario para la interfaz. Se lee de la base de datos, no del token.
     [Authorize, HttpGet("me")]
-    public IActionResult Me() => Ok(new
+    public async Task<IActionResult> Me()
     {
-        nombre = User.FindFirstValue("name"),
-        email = User.FindFirstValue("email"),
-        perfil = User.FindFirstValue("role"),
-    });
+        if (!Guid.TryParse(User.FindFirstValue("sub"), out var id)) return Unauthorized();
+        var u = await db.Usuarios.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.Activo);
+        return u is null ? Unauthorized() : Ok(new { nombre = u.Nombre, perfil = u.Perfil });
+    }
+
+    // Una cookie HttpOnly solo la puede borrar el servidor
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        SesionCookie.Borrar(Response);
+        return NoContent();
+    }
 }

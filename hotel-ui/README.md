@@ -141,13 +141,27 @@ Imagen de relleno (SVG incrustado) para habitaciones sin fotos. Se pasa como `fa
 - `useDebouncedEffect(fn, deps, ms = 250)`: ejecuta `fn` tras una pausa cuando cambian `deps` (búsquedas).
 - `useLoading(initial = false)`: devuelve `[loading, setLoading]`.
 
-## Sesión: `createSession(loginUrl)`
-Devuelve `{ initSession, getToken, logout, usuarioActual, tienePerfil }` para los módulos. El token llega desde `auth-front` en el fragmento `#token=…`.
-- `initSession()`: guarda el token del fragmento, limpia la URL y devuelve `true` si hay sesión vigente.
-- `getToken()`: el token, o `null` si falta, es inválido o venció.
+## Sesión: `createSession({ authApiUrl, loginUrl })`
+La sesión vive en una cookie `HttpOnly` que emite `auth-api` y que el JavaScript no puede leer. Los módulos solo conocen, en memoria,
+`{ nombre, perfil }` que responde `GET /api/auth/me`. Devuelve `{ initSession, usuarioActual, tienePerfil, logout }`.
+- `await initSession()`: pregunta a `/me` con la cookie; guarda `{ nombre, perfil }` en memoria y devuelve `true`, o `false` si no hay sesión.
+  Se espera antes de dibujar la aplicación (`main.jsx`).
 - `usuarioActual()`: `{ nombre, perfil }` o `null`.
 - `tienePerfil(...perfiles)`: `true` si el perfil actual está entre ellos.
-- `logout()`: borra el token y redirige a `${loginUrl}/login`.
+- `await logout()`: llama a `POST /api/auth/logout` (el servidor borra la cookie) y redirige a `{loginUrl}/login`.
+- Opcional `irA(url)`: cómo redirigir (por defecto cambia `window.location`); sirve para probar.
+
+## Cliente HTTP: `crearCliente({ base, onNoAutorizado })`
+Devuelve `{ req, fetchConSesion }` para hablar con una API usando la cookie de sesión.
+- Manda siempre `credentials: 'include'` y, en POST, PUT, PATCH y DELETE, la cabecera `X-Requested-With: hotel-ui` (`CABECERA_CSRF`) que las APIs exigen.
+- `req(ruta, opciones)`: devuelve el JSON (`null` en 204) y lanza `Error(mensaje)` si la respuesta no es correcta. Con `FormData` no fija el `Content-Type`.
+- Un 401 llama a `onNoAutorizado` (normalmente `logout`) y devuelve `null`; sin `onNoAutorizado` se trata como cualquier error (útil en el login).
+- `fetchConSesion(ruta, opciones)`: la petición cruda con credenciales (descarga de reportes).
+
+```js
+const { req } = crearCliente({ base: import.meta.env.VITE_API_URL, onNoAutorizado: logout })
+export const clientesApi = { listar: () => req('/api/clientes'), crear: (d) => req('/api/clientes', { method: 'POST', body: JSON.stringify(d) }) }
+```
 
 ## Validadores
 Cada validador recibe `(valor, todosLosValores)` y devuelve un mensaje o `null`.

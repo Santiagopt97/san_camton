@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Button, Card, Field, Input } from 'hotel-ui'
-import { login } from '../api.js'
-import { saveSession, rutaPorPerfil } from '../session.js'
+import { rutaPorPerfil, useSesion } from '../SesionContext.jsx'
 
 export default function Login() {
   const nav = useNavigate()
+  const { entrar } = useSesion()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -15,9 +15,9 @@ export default function Login() {
     e.preventDefault()
     setLoading(true); setError('')
     try {
-      const s = await login(email.trim(), password)
-      saveSession(s)
-      nav(rutaPorPerfil(s.usuario.perfil), { replace: true })
+      const usuario = await entrar(email.trim(), password)
+      if (!usuario) throw new Error('No se pudo iniciar la sesión. Revisa que el navegador permita las cookies.')
+      nav(rutaPorPerfil(usuario.perfil), { replace: true })
     } catch (err) { setError(err.message) } finally { setLoading(false) }
   }
 

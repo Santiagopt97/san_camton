@@ -1,29 +1,36 @@
-// Manejo de sesión para los fronts de módulo. El token llega desde auth-front en #token=...
-export function createSession(loginUrl) {
-  const decode = () => {
-    try {
-      const t = sessionStorage.getItem('token')
-      const b64 = t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
-      const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))
-      return JSON.parse(new TextDecoder().decode(bytes))
-    } catch { return null }
-  }
-  const vigente = () => { const p = decode(); return !!p && (!p.exp || p.exp * 1000 > Date.now()) }
+import { CABECERA_CSRF } from './http.js'
 
-  const logout = () => {
-    sessionStorage.removeItem('token')
-    window.location.href = `${loginUrl}/login`
-  }
-  const initSession = () => {
-    const m = window.location.hash.match(/token=([^&]+)/)
-    if (m) {
-      sessionStorage.setItem('token', decodeURIComponent(m[1]))
-      history.replaceState(null, '', window.location.pathname + window.location.search)
+// Sesión de los fronts de módulo. El token vive en una cookie HttpOnly que el JavaScript no puede leer:
+// aquí solo se guarda, en memoria, { nombre, perfil } que responde auth-api en /me.
+// `irA` existe para poder probar la redirección (por defecto cambia la URL del navegador).
+export function createSession({ authApiUrl, loginUrl, irA = (url) => { window.location.href = url } }) {
+  let usuario = null
+
+  const initSession = async () => {
+    try {
+      const res = await fetch(`${authApiUrl}/api/auth/me`, { credentials: 'include' })
+      if (!res.ok) { usuario = null; return false }
+      const datos = await res.json()
+      usuario = { nombre: datos.nombre, perfil: datos.perfil }
+      return true
+    } catch {
+      usuario = null
+      return false
     }
-    return vigente()
   }
-  const getToken = () => (vigente() ? sessionStorage.getItem('token') : null)
-  const usuarioActual = () => { const p = decode(); return p ? { nombre: p.name, perfil: p.role } : null }
-  const tienePerfil = (...perfiles) => perfiles.includes(usuarioActual()?.perfil)
-  return { initSession, getToken, logout, usuarioActual, tienePerfil }
+
+  const usuarioActual = () => usuario
+  const tienePerfil = (...perfiles) => perfiles.includes(usuario?.perfil)
+
+  const logout = async () => {
+    usuario = null
+    try {
+      await fetch(`${authApiUrl}/api/auth/logout`, {
+        method: 'POST', credentials: 'include', headers: { [CABECERA_CSRF.nombre]: CABECERA_CSRF.valor },
+      })
+    } catch { /* sin conexión: igual se vuelve al login */ }
+    irA(`${loginUrl}/login`)
+  }
+
+  return { initSession, usuarioActual, tienePerfil, logout }
 }

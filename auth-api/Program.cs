@@ -1,4 +1,5 @@
 using System.Text;
+using HotelSecurity;
 using AuthApi.Data;
 using AuthApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,8 +29,7 @@ var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "hotel-auth";
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "hotel-apis";
 var jwtExpira = int.TryParse(Environment.GetEnvironmentVariable("JWT_EXPIRA_MINUTOS"), out var m) ? m : 120;
-var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http://localhost:5173")
-    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+var corsOrigins = Origenes.Parsear(Environment.GetEnvironmentVariable("CORS_ORIGINS"), Origenes.TodosLosFronts);
 b.Services.AddDbContext<AuthDbContext>(o => o.UseNpgsql(connStr));
 b.Services.AddControllers();
 b.Services.AddEndpointsApiExplorer();
@@ -38,6 +38,7 @@ b.Services.AddSwaggerGen();
 b.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
 {
     o.MapInboundClaims = false;
+    o.Events = new JwtBearerEvents { OnMessageReceived = TokenDesdeCookie.Leer };
     o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidIssuer = jwtIssuer, ValidAudience = jwtAudience,
@@ -47,7 +48,7 @@ b.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBeare
 });
 b.Services.AddAuthorization();
 
-b.Services.AddCors(o => o.AddDefaultPolicy(p => p.WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod()));
+b.Services.AddCors(o => o.AddDefaultPolicy(p => p.WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
 b.Configuration["Jwt:Key"] = jwtKey;
 b.Configuration["Jwt:Issuer"] = jwtIssuer;
@@ -106,6 +107,7 @@ app.UseExceptionHandler(a => a.Run(async ctx =>
     await ctx.Response.WriteAsJsonAsync(new { message = msg });
 }));
 app.UseRateLimiter();
+app.UseCsrfHeader();
 app.UseAuthentication(); app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/health", () => Results.Ok(new { status = "ok", service = "auth-api" }));

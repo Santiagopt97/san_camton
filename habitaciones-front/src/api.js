@@ -1,21 +1,7 @@
-import { extraerError, fetchSeguro } from 'hotel-ui'
-import { getToken, logout } from './auth.js'
+import { crearCliente } from 'hotel-ui'
+import { logout } from './auth.js'
 
-const BASE = import.meta.env.VITE_API_URL
-const auth = () => ({ Authorization: `Bearer ${getToken()}` })
-
-async function req(path, options = {}) {
-  const res = await fetchSeguro(`${BASE}${path}`, {
-    // con FormData el navegador pone el Content-Type (multipart + boundary)
-    headers: { ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }), ...auth() },
-    ...options,
-  })
-  if (res.status === 401) return logout()
-  if (!res.ok) {
-    throw new Error(await extraerError(res))
-  }
-  return res.status === 204 ? null : res.json()
-}
+const { req } = crearCliente({ base: import.meta.env.VITE_API_URL, onNoAutorizado: logout })
 
 export const habitacionesApi = {
   listar: ({ q = '', estado = '', tipo = '', page = 1, size = 12, soloActivas = false }) =>

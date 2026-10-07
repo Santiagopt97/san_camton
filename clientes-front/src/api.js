@@ -1,20 +1,7 @@
-import { extraerError, fetchSeguro } from 'hotel-ui'
-import { getToken, logout } from './auth.js'
+import { crearCliente } from 'hotel-ui'
+import { logout } from './auth.js'
 
-const BASE = import.meta.env.VITE_API_URL
-const auth = () => ({ Authorization: `Bearer ${getToken()}` })
-
-async function req(path, options = {}) {
-  const res = await fetchSeguro(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...auth() },
-    ...options,
-  })
-  if (res.status === 401) return logout()
-  if (!res.ok) {
-    throw new Error(await extraerError(res))
-  }
-  return res.status === 204 ? null : res.json()
-}
+const { req, fetchConSesion } = crearCliente({ base: import.meta.env.VITE_API_URL, onNoAutorizado: logout })
 
 export const clientesApi = {
   listar: ({ q = '', page = 1, size = 10, soloActivos = false }) =>
@@ -26,7 +13,7 @@ export const clientesApi = {
 }
 
 export async function descargarReporte(tipo, { q = '', soloActivos = false } = {}) {
-  const res = await fetchSeguro(`${BASE}/api/reportes/clientes/${tipo}?q=${encodeURIComponent(q)}&soloActivos=${soloActivos}`, { headers: auth() })
+  const res = await fetchConSesion(`/api/reportes/clientes/${tipo}?q=${encodeURIComponent(q)}&soloActivos=${soloActivos}`)
   if (res.status === 401) return logout()
   if (!res.ok) throw new Error('No se pudo generar el reporte')
   const url = URL.createObjectURL(await res.blob())
