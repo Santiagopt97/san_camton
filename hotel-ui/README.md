@@ -133,6 +133,10 @@ Si un callback lanza un error, su mensaje se muestra sobre las miniaturas. Mient
 <ImageManager images={imagenes} onUpload={subir} onDelete={borrar} onReorder={reordenar} />
 ```
 
+### SIN_FOTO
+Imagen de relleno (SVG incrustado) para habitaciones sin fotos. Se pasa como `fallback` de `Carousel`:
+`<Carousel images={h.imagenes} fallback={SIN_FOTO} />`.
+
 ## Hooks
 - `useDebouncedEffect(fn, deps, ms = 250)`: ejecuta `fn` tras una pausa cuando cambian `deps` (búsquedas).
 - `useLoading(initial = false)`: devuelve `[loading, setLoading]`.
