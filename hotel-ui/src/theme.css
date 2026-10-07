@@ -1,0 +1,54 @@
+:root{--primary:#0F2D3D;--secondary:#3F5B45;--accent:#C49A5A;--bg:#F7F4EE;--bg2:#E8DFD0;
+--text:#1F2933;--muted:#6B7280;--card:#FFFFFF;--ok:#4F7A5A;--err:#B85450}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif}
+.topbar{background:var(--primary);color:#fff;display:flex;justify-content:space-between;align-items:center;
+padding:14px 32px;border-bottom:3px solid var(--accent)}
+.topbar h1{margin:0;font-size:1.3rem;font-family:Georgia,serif}.topbar h1 span{color:var(--accent)}
+.topbar nav a{color:var(--bg2);text-decoration:none;margin-left:20px;padding-bottom:4px}
+.topbar nav a.active{color:#fff;border-bottom:2px solid var(--accent)}
+main{max-width:1100px;margin:28px auto;padding:0 16px}
+.card{background:var(--card);border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(15,45,61,.08)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.toolbar input:not([type]){flex:1;min-width:220px}
+input,select{padding:9px 12px;border:1px solid var(--bg2);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;width:100%}
+input:focus,select:focus{outline:2px solid var(--accent);border-color:transparent}
+.check{display:flex;align-items:center;gap:6px;color:var(--muted);white-space:nowrap}
+.check input{width:auto}
+.btn{background:var(--primary);color:#fff;border:0;border-radius:8px;padding:9px 16px;font:inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:var(--secondary)}.btn:disabled{opacity:.5;cursor:default}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--accent)}
+.btn.ghost:hover{background:var(--bg2)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--bg2);text-align:left;padding:10px;font-size:.85rem;color:var(--primary)}
+td{padding:10px;border-bottom:1px solid var(--bg2)}
+.empty{text-align:center;color:var(--muted);padding:28px}
+.badge{padding:2px 10px;border-radius:99px;font-size:.8rem;color:#fff}
+.badge.ok{background:var(--ok)}.badge.off{background:var(--muted)}
+.actions{white-space:nowrap}.actions a,.link{color:var(--primary);margin-right:12px;background:none;border:0;cursor:pointer;font:inherit;text-decoration:underline}
+.link.danger{color:var(--err)}.link:disabled{opacity:.4;cursor:not-allowed;text-decoration:none}
+.error{background:#f6e3e2;color:var(--err);padding:10px 14px;border-radius:8px}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:16px;color:var(--muted)}
+.form h2{margin-top:0;color:var(--primary);font-family:Georgia,serif}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid label{display:flex;flex-direction:column;gap:6px;font-size:.9rem;color:var(--muted)}
+.full{grid-column:1/-1}
+.row-end{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.user{color:var(--bg2);margin-left:24px;white-space:nowrap}.user .link{color:var(--accent);margin:0 0 0 8px}
+/* ---- componentes de hotel-ui ---- */
+.badge.warn{background:var(--accent)}.badge.danger{background:var(--err)}.badge.info{background:var(--primary)}
+.btn.danger{background:var(--err)}.btn.danger:hover{background:#9b433f}
+.btn.sm{padding:5px 10px;font-size:.85rem}
+.alert{padding:10px 14px;border-radius:8px;margin:0 0 12px}
+.alert.error{background:#f6e3e2;color:var(--err)}.alert.success{background:#e3efe6;color:var(--ok)}
+.spinner{width:22px;height:22px;border:3px solid var(--bg2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{text-align:center;padding:28px}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,45,61,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal{background:var(--card);border-radius:12px;padding:24px;max-width:440px;width:100%;box-shadow:0 10px 40px rgba(15,45,61,.3)}
+.modal h3{margin:0 0 8px;color:var(--primary);font-family:Georgia,serif}
+.modal p{color:var(--muted);margin:0}
+.table-wrap{overflow-x:auto}
+label.has-error input,label.has-error select,label.has-error textarea{border-color:var(--err)}
+.field-error{color:var(--err);font-size:.8rem;font-weight:400}
