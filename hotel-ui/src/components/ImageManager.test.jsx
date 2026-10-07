@@ -41,7 +41,7 @@ describe('ImageManager', () => {
     const onUpload = vi.fn()
     render(<ImageManager images={[]} onUpload={onUpload} />)
     subir(archivo('foto.webp', ''))
-    expect(screen.getByText('Formato no permitido. Usa JPG, PNG, WebP.')).toBeInTheDocument()
+    expect(screen.getByText('No se pudo reconocer el formato de «foto.webp». Usa JPG, PNG, WebP.')).toBeInTheDocument()
     expect(onUpload).not.toHaveBeenCalled()
   })
 

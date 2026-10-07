@@ -32,6 +32,8 @@ Botón (o cualquier etiqueta con `as`).
 | `as` | etiqueta o componente | `'button'` | Ej. `as={Link} to="/x"` |
 | resto | | | Se reenvía (`disabled`, `onClick`, `title`, `type`…) |
 
+Sin `type`, un `Button` es de tipo `submit` (los botones de «Guardar», «Ingresar»… dependen de eso): usa `type="button"` cuando vaya dentro de un `<form>` y no deba enviarlo. `Modal`, `ConfirmModal`, `Pager` e `ImageManager` ya usan `type="button"` en todos sus botones.
+
 ```jsx
 <Button variant="danger" size="sm" onClick={borrar}>Eliminar</Button>
 <Button variant="link danger" onClick={desactivar}>Desactivar</Button>

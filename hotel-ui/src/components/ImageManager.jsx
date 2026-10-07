@@ -25,8 +25,14 @@ export default function ImageManager({
     const archivo = e.target.files?.[0]
     e.target.value = '' // permite volver a elegir el mismo archivo
     if (!archivo) return
+    const permitidos = accept.map((t) => NOMBRES[t] ?? t).join(', ')
+    if (!archivo.type) {
+      // Algunos sistemas no reconocen el tipo (p. ej. .webp): decirlo, no culpar al formato
+      setError(`No se pudo reconocer el formato de «${archivo.name}». Usa ${permitidos}.`)
+      return
+    }
     if (!accept.includes(archivo.type)) {
-      setError(`Formato no permitido. Usa ${accept.map((t) => NOMBRES[t] ?? t).join(', ')}.`)
+      setError(`Formato no permitido. Usa ${permitidos}.`)
       return
     }
     if (archivo.size > maxBytes) {
