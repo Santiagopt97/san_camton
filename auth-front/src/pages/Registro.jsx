@@ -4,8 +4,7 @@ import {
   Alert, Button, Card, Field, Input, Select,
   validar, requerido, documento, letras, email, telefono, password, maxLen,
 } from 'hotel-ui'
-import { registro } from '../api.js'
-import { saveSession, rutaPorPerfil } from '../session.js'
+import { rutaPorPerfil, useSesion } from '../SesionContext.jsx'
 
 const vacio = { tipoDocumento: 'CC', numeroDocumento: '', nombres: '', apellidos: '', email: '', telefono: '', password: '', confirmar: '' }
 const ESQUEMA = {
@@ -20,6 +19,7 @@ const ESQUEMA = {
 
 export default function Registro() {
   const nav = useNavigate()
+  const { registrar } = useSesion()
   const [f, setF] = useState(vacio)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -34,9 +34,9 @@ export default function Registro() {
     setLoading(true); setError('')
     try {
       const { confirmar, ...datos } = f
-      const s = await registro({ ...datos, email: f.email.trim(), telefono: f.telefono || null })
-      saveSession(s)
-      nav(rutaPorPerfil(s.usuario.perfil), { replace: true })
+      const usuario = await registrar({ ...datos, email: f.email.trim(), telefono: f.telefono || null })
+      if (!usuario) throw new Error('Tu cuenta se creó, pero no se pudo iniciar la sesión. Inicia sesión manualmente.')
+      nav(rutaPorPerfil(usuario.perfil), { replace: true })
     } catch (err) { setError(err.message) } finally { setLoading(false) }
   }
 

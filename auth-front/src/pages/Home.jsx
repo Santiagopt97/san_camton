@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { AppShell, Card } from 'hotel-ui'
-import { clearSession, getSession } from '../session.js'
+import { useSesion } from '../SesionContext.jsx'
 
 const CLIENTES = import.meta.env.VITE_CLIENTES_URL
 const HABITACIONES = import.meta.env.VITE_HABITACIONES_URL
@@ -19,13 +19,13 @@ const MODULOS = [
 
 export default function Home() {
   const nav = useNavigate()
-  const { usuario, token } = getSession()
-  const salir = () => { clearSession(); nav('/login', { replace: true }) }
-  // El token viaja en el fragmento (#) para que no llegue a ningún servidor ni log
-  const abrir = (url) => { window.location.href = `${url}/#token=${encodeURIComponent(token)}` }
+  const { usuario, salir } = useSesion()
+  const cerrarSesion = async () => { await salir(); nav('/login', { replace: true }) }
+  // La sesión va en la cookie: no hace falta pasar nada por la URL
+  const abrir = (url) => { window.location.href = url }
 
   return (
-    <AppShell section="Inicio" user={`${usuario.nombre} · ${ETIQUETAS[usuario.perfil]}`} onLogout={salir}>
+    <AppShell section="Inicio" user={`${usuario.nombre} · ${ETIQUETAS[usuario.perfil]}`} onLogout={cerrarSesion}>
       <h2>Bienvenido, {usuario.nombre}</h2>
       <div className="modules">
         {MODULOS.filter((m) => m.perfiles.includes(usuario.perfil)).map((m) => (
