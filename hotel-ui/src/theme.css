@@ -67,3 +67,8 @@ select.estado{width:auto;padding:4px 8px;border-radius:99px;font-size:.85rem;bor
 .carousel-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:6px}
 .carousel-dot{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.65);cursor:pointer}
 .carousel-dot[aria-current="true"]{background:var(--accent)}
+.image-manager-list{list-style:none;margin:12px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.image-manager-list li{background:var(--bg);border:1px solid var(--bg2);border-radius:8px;padding:6px;display:flex;flex-direction:column;gap:6px}
+.image-manager-list img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;display:block}
+.image-manager-actions{display:flex;justify-content:space-between;gap:4px}
+.image-manager-count{color:var(--muted);font-size:.85rem;margin-left:10px}
