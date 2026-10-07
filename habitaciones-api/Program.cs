@@ -29,6 +29,8 @@ var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "hotel-auth"
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "hotel-apis";
 var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http://localhost:5174")
     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+// Orígenes que pueden LEER el endpoint público (la landing): solo GET y sin credenciales
+var corsPublico = Origenes.Parsear(Environment.GetEnvironmentVariable("CORS_ORIGINS_PUBLICO"), ["http://localhost:5177"]);
 
 b.Services.AddDbContext<HabitacionesDbContext>(o => o.UseNpgsql(connStr));
 // Storage de imágenes: si faltan SUPABASE_URL o SUPABASE_SECRET_KEY, falla al arrancar con un mensaje claro
@@ -51,8 +53,13 @@ b.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBeare
 });
 b.Services.AddAuthorization();
 
-b.Services.AddCors(o => o.AddDefaultPolicy(p => p
-    .WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+b.Services.AddCors(o =>
+{
+    o.AddDefaultPolicy(p => p.WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+    // La landing no necesita sesión: solo lectura pública, sin credenciales
+    o.AddPolicy("publico", p => p.WithOrigins(corsPublico).WithMethods("GET").AllowAnyHeader());
+});
+b.Services.AddMemoryCache();
 
 var app = b.Build();
 app.UseSwagger();
