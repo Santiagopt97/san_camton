@@ -6,7 +6,8 @@ const auth = () => ({ Authorization: `Bearer ${getToken()}` })
 
 async function req(path, options = {}) {
   const res = await fetchSeguro(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...auth() },
+    // con FormData el navegador pone el Content-Type (multipart + boundary)
+    headers: { ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }), ...auth() },
     ...options,
   })
   if (res.status === 401) return logout()
@@ -25,6 +26,13 @@ export const habitacionesApi = {
   actualizar: (id, data) => req(`/api/habitaciones/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   cambiarEstado: (id, estado) => req(`/api/habitaciones/${id}/estado`, { method: 'PATCH', body: JSON.stringify({ estado }) }),
   desactivar: (id) => req(`/api/habitaciones/${id}`, { method: 'DELETE' }),
+  subirImagen: (id, archivo) => {
+    const datos = new FormData()
+    datos.append('archivo', archivo)
+    return req(`/api/habitaciones/${id}/imagenes`, { method: 'POST', body: datos })
+  },
+  borrarImagen: (id, imagenId) => req(`/api/habitaciones/${id}/imagenes/${imagenId}`, { method: 'DELETE' }),
+  reordenarImagenes: (id, ids) => req(`/api/habitaciones/${id}/imagenes/orden`, { method: 'PUT', body: JSON.stringify({ ids }) }),
 }
 
 export const ESTADOS = ['Disponible', 'Ocupada', 'Limpieza', 'Mantenimiento']

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { Alert, Button, Card, Checkbox, ConfirmModal, DataTable, Input, Pager, Select, Toolbar, useDebouncedEffect } from 'hotel-ui'
+import { Alert, Button, Card, Carousel, Checkbox, ConfirmModal, DataTable, Input, Pager, SIN_FOTO, Select, Toolbar, useDebouncedEffect } from 'hotel-ui'
 import { habitacionesApi, ESTADOS, TIPOS } from '../api.js'
 
 const cop = (n) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n)
@@ -41,6 +41,9 @@ export default function HabitacionesList({ perfil }) {
   const filtro = (setter) => (e) => { setter(e.target.value); setPage(1) }
 
   const columns = [
+    { header: '', cell: (h) => (
+      <div className="thumb"><Carousel images={h.imagenes} alt={`Habitación ${h.numero}`} fallback={SIN_FOTO} /></div>
+    ) },
     { header: 'N.º', cell: (h) => <strong>{h.numero}</strong> },
     { header: 'Tipo', cell: (h) => h.tipo },
     { header: 'Piso', cell: (h) => h.piso },

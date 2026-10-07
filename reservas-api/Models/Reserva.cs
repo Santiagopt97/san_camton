@@ -46,6 +46,16 @@ public class HabitacionRef
     [Column("activo")] public bool Activo { get; set; }
 }
 
+[Table("habitacion_imagenes", Schema = "public")]
+public class HabitacionImagenRef
+{
+    [Column("id")] public Guid Id { get; set; }
+    [Column("habitacion_id")] public Guid HabitacionId { get; set; }
+    [Column("url")] public string Url { get; set; } = "";
+    [Column("orden")] public int Orden { get; set; }
+    [Column("creado_en")] public DateTime CreadoEn { get; set; }
+}
+
 public class ReservaDto
 {
     [Required] public Guid ClienteId { get; set; }

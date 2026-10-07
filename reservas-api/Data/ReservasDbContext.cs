@@ -8,4 +8,5 @@ public class ReservasDbContext(DbContextOptions<ReservasDbContext> options) : Db
     public DbSet<Reserva> Reservas => Set<Reserva>();
     public DbSet<ClienteRef> Clientes => Set<ClienteRef>();
     public DbSet<HabitacionRef> Habitaciones => Set<HabitacionRef>();
+    public DbSet<HabitacionImagenRef> HabitacionImagenes => Set<HabitacionImagenRef>();
 }

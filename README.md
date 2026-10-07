@@ -10,7 +10,7 @@
 ## Puesta en marcha
 
 ### 1. Base de datos
-En Supabase → SQL Editor: ejecutar `db/usuarios.sql`, `db/clientes.sql` y `db/habitaciones.sql` y `db/reservas.sql` y `db/huespedes.sql` y, al final, `db/validaciones.sql` (en ese orden, reservas depende de las otras dos).
+En Supabase → SQL Editor: ejecutar `db/usuarios.sql`, `db/clientes.sql` y `db/habitaciones.sql` y `db/habitacion_imagenes.sql` y `db/reservas.sql` y `db/huespedes.sql` y, al final, `db/validaciones.sql` (en ese orden, reservas depende de las otras dos).
 
 ### 2. Variables de entorno (.env)
 Cada API lee su configuración de un archivo `.env`, que **no se sube a git** (ver `.gitignore`).
@@ -28,6 +28,12 @@ Editar el `.env` y completar:
 
 Si `SUPABASE_HOST`/`USER`/`PASSWORD` o `JWT_KEY` faltan, el backend lanza un error claro al arrancar
 en vez de fallar en silencio.
+
+### Imágenes de habitaciones (Supabase Storage)
+1. En Supabase → Storage → New bucket: nombre `habitaciones`, con **Public bucket** activado (límite 5 MB; tipos `image/jpeg`, `image/png`, `image/webp`).
+2. En `habitaciones-api/.env` agregar `SUPABASE_URL` (Settings → API), `SUPABASE_SECRET_KEY` (Settings → API Keys → secret key; **solo backend, nunca en el front ni en git**) y, si el bucket se llama distinto, `SUPABASE_BUCKET`.
+3. Sin `SUPABASE_URL` o `SUPABASE_SECRET_KEY`, `habitaciones-api` no arranca y lo dice con un mensaje claro.
+4. Pruebas del backend de habitaciones: `dotnet test habitaciones-api.Tests`.
 
 ### 3. Backends
 ```bash
