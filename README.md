@@ -44,6 +44,7 @@ cd reservas-api && dotnet restore && dotnet run --urls http://localhost:5004
 ```
 
 ### 4. Fronts
+Antes, en cada front: `cp .env.example .env` (define las URLs de las APIs; `VITE_AUTH_API_URL` es la de `auth-api`).
 ```bash
 cd auth-front && npm install && npm run dev
 cd clientes-front && npm install && npm run dev
@@ -57,11 +58,19 @@ Abrir http://localhost:5173 → login → Home → módulo Clientes.
 Usuarios de prueba (se crean solos si la tabla `usuarios` está vacía):
 `admin@hotel.com / Admin123*` y `recepcion@hotel.com / Recep123*`.
 
-## Flujo AUTH-BT (Bearer Token)
-Login → auth-api valida con BCrypt y firma un JWT (perfil en el claim `role`) → auth-front redirige según perfil
-(`/admin`, `/recepcion`) → al abrir un módulo envía el token en `#token=` → el módulo lo guarda y lo manda como
-`Authorization: Bearer` → su API valida firma, issuer y audience usando la misma `JWT_KEY`. Sin token o con 401,
-el front vuelve al login.
+## Flujo de sesión (cookie HttpOnly)
+Login → `auth-api` valida con BCrypt, firma un JWT (solo `sub`, `role` y, si es huésped, `cliente_id`) y lo pone en la cookie
+`hotel_token` (`HttpOnly`, `SameSite=Lax`, `Secure` con HTTPS); responde **204 sin cuerpo**. El navegador no puede leer la cookie ni
+guarda nada en `sessionStorage`. Los fronts preguntan quién es el usuario a `GET /api/auth/me`, que devuelve solo `{ nombre, perfil }`,
+y lo guardan únicamente en memoria. Los módulos no necesitan que se les pase ningún token: la cookie viaja sola a cada API, que valida
+firma, issuer y audience con la misma `JWT_KEY`. Sin sesión o con un 401, el front vuelve al login. Salir llama a `POST /api/auth/logout`.
+
+- **CSRF:** las peticiones POST, PUT, PATCH y DELETE deben traer `X-Requested-With: hotel-ui` (lo añade `hotel-ui`); si falta, 400.
+  Las peticiones con `Authorization: Bearer` (Swagger, Postman) no la necesitan, y las APIs siguen aceptándolas.
+- **Mismo host:** la cookie se comparte entre puertos porque todo corre en `localhost`. En otro entorno, fronts y APIs deben compartir host
+  o dominio.
+- **CORS:** `CORS_ORIGINS` de `auth-api` debe listar los 4 fronts (ver `auth-api/.env.example`).
+- **Cambio incompatible:** las sesiones abiertas antes de este cambio dejan de valer; hay que volver a iniciar sesión.
 
 ## Habitaciones (Integrante 3)
 - API: `GET/POST /api/habitaciones`, `GET/PUT /api/habitaciones/{id}`, `PATCH /api/habitaciones/{id}/estado`,
