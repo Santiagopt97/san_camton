@@ -32,7 +32,7 @@ var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http:/
 b.Services.AddDbContext<HabitacionesDbContext>(o => o.UseNpgsql(connStr));
 // Storage de imágenes: si faltan SUPABASE_URL o SUPABASE_SECRET_KEY, falla al arrancar con un mensaje claro
 b.Services.AddSingleton(StorageOptions.Desde(Environment.GetEnvironmentVariable));
-b.Services.AddHttpClient<IImagenStorage, SupabaseStorage>();
+b.Services.AddHttpClient<IImagenStorage, SupabaseStorage>(c => c.Timeout = TimeSpan.FromSeconds(30)); // por defecto serían 100 s
 b.Services.AddControllers();
 b.Services.AddEndpointsApiExplorer();
 b.Services.AddSwaggerGen();

@@ -62,5 +62,7 @@ public class SupabaseStorage(HttpClient http, StorageOptions opciones, ILogger<S
     {
         try { return await http.SendAsync(req, ct); }
         catch (HttpRequestException e) { throw new ImagenStorageException("No se pudo conectar con Storage.", e); }
+        // El Timeout de HttpClient lanza TaskCanceledException; si el llamador no canceló, es un fallo de Storage
+        catch (TaskCanceledException e) when (!ct.IsCancellationRequested) { throw new ImagenStorageException("Storage no respondió a tiempo.", e); }
     }
 }

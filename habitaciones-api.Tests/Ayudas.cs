@@ -13,6 +13,7 @@ public sealed class StorageFalso : IImagenStorage
     public List<string> Borrados { get; } = [];
     public bool FallaAlSubir { get; set; }
     public bool FallaAlBorrar { get; set; }
+    public Exception? ExcepcionAlBorrar { get; set; }
 
     public Task SubirAsync(string ruta, Stream contenido, string contentType, CancellationToken ct)
     {
@@ -23,6 +24,7 @@ public sealed class StorageFalso : IImagenStorage
 
     public Task BorrarAsync(string ruta, CancellationToken ct)
     {
+        if (ExcepcionAlBorrar is not null) throw ExcepcionAlBorrar;
         if (FallaAlBorrar) throw new ImagenStorageException("falló");
         Borrados.Add(ruta);
         return Task.CompletedTask;

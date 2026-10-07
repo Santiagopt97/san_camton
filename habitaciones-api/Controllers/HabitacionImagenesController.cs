@@ -105,7 +105,8 @@ public class HabitacionImagenesController(HabitacionesDbContext db, IImagenStora
 
     private async Task IntentarBorrar(string ruta)
     {
+        // Mejor esfuerzo: el objeto huérfano es inocuo, así que ningún error de Storage debe llegar al usuario
         try { await storage.BorrarAsync(ruta, CancellationToken.None); }
-        catch (ImagenStorageException e) { log.LogWarning(e, "No se pudo borrar el objeto {Ruta} del bucket", ruta); }
+        catch (Exception e) { log.LogWarning(e, "No se pudo borrar el objeto {Ruta} del bucket", ruta); }
     }
 }

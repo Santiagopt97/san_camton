@@ -39,6 +39,22 @@ public class BorrarReordenarTests
         Assert.Empty(db.HabitacionImagenes);
     }
 
+    // Review: el borrado del objeto es de mejor esfuerzo; ni un timeout ni un error inesperado deben llegar al usuario
+    [Fact]
+    public async Task Borrar_funciona_aunque_Storage_lance_un_timeout()
+    {
+        var db = Datos.NuevoDb(); var h = Datos.Habitacion(db);
+        var st = new StorageFalso { ExcepcionAlBorrar = new TaskCanceledException("timeout") };
+        var a = Datos.Imagen(db, h.Id, 0); var b = Datos.Imagen(db, h.Id, 1);
+
+        var r = await Crear(db, st).Borrar(h.Id, a.Id, default);
+
+        Assert.IsType<NoContentResult>(r);
+        var resto = Assert.Single(db.HabitacionImagenes);
+        Assert.Equal(b.Id, resto.Id);
+        Assert.Equal(0, resto.Orden); // el orden se compactó aunque Storage falló
+    }
+
     // Review Focus 5
     [Fact]
     public async Task Borrar_una_imagen_de_otra_habitacion_es_404_y_no_toca_nada()
