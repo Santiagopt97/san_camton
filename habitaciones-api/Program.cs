@@ -27,7 +27,7 @@ var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
     ?? throw new InvalidOperationException("Falta JWT_KEY en el .env (debe ser igual a la de auth-api)");
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "hotel-auth";
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "hotel-apis";
-var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http://localhost:5174")
+var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http://localhost:5174,http://localhost:5177")
     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 b.Services.AddDbContext<HabitacionesDbContext>(o => o.UseNpgsql(connStr));

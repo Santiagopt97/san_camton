@@ -31,4 +31,12 @@ public class ProgramWiringTests
         Assert.True(csrf > cors, $"{api}: app.UseCsrfHeader() debe ir después de app.UseCors()");
         Assert.True(auth > csrf, $"{api}: app.UseCsrfHeader() debe ir antes de app.UseAuthentication()");
     }
+
+    // La landing (puerto 5177) llama a habitaciones-api desde otro origen: si falta CORS_ORIGINS en el .env, debe funcionar igual
+    [Fact]
+    public void Habitaciones_acepta_por_defecto_el_origen_de_la_landing()
+    {
+        var texto = File.ReadAllText(Path.Combine(Raiz(), "habitaciones-api", "Program.cs"));
+        Assert.Contains("?? \"http://localhost:5174,http://localhost:5177\"", texto);
+    }
 }
