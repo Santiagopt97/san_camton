@@ -34,7 +34,7 @@ export default function ClientesList() {
     { header: 'Estado', cell: (c) => <Badge tone={c.activo ? 'ok' : 'off'}>{c.activo ? 'Activo' : 'Inactivo'}</Badge> },
     { header: '', className: 'actions', cell: (c) => (<>
       <Link to={`/clientes/${c.id}`}>Editar</Link>
-      {c.activo && <button className="link danger" onClick={() => setADesactivar(c)}>Desactivar</button>}
+      {c.activo && <Button variant="link danger" onClick={() => setADesactivar(c)}>Desactivar</Button>}
     </>) },
   ]
 

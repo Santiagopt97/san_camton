@@ -47,13 +47,11 @@ export default function HabitacionesList({ perfil }) {
     { header: 'Cap.', cell: (h) => h.capacidad },
     { header: 'Precio / noche', cell: (h) => cop(h.precioNoche) },
     { header: 'Estado', cell: (h) => (
-      <select className={`estado ${h.estado}`} value={h.estado} disabled={!h.activo} onChange={(e) => cambiarEstado(h, e.target.value)}>
-        {ESTADOS.map((s) => <option key={s}>{s}</option>)}
-      </select>
+      <Select className={`estado ${h.estado}`} value={h.estado} disabled={!h.activo} onChange={(e) => cambiarEstado(h, e.target.value)} options={ESTADOS} />
     ) },
     { header: '', className: 'actions', cell: (h) => (<>
       <Link to={`/habitaciones/${h.id}`}>Editar</Link>
-      {perfil === 'admin' && h.activo && <button className="link danger" disabled={h.estado === 'Ocupada'} title={h.estado === 'Ocupada' ? 'No se puede dar de baja una habitación ocupada' : undefined} onClick={() => setABaja(h)}>Dar de baja</button>}
+      {perfil === 'admin' && h.activo && <Button variant="link danger" disabled={h.estado === 'Ocupada'} title={h.estado === 'Ocupada' ? 'No se puede dar de baja una habitación ocupada' : undefined} onClick={() => setABaja(h)}>Dar de baja</Button>}
     </>) },
   ]
 
@@ -61,10 +59,10 @@ export default function HabitacionesList({ perfil }) {
     <>
       <div className="summary">
         {resumen.map((r) => (
-          <button key={r.estado} className={`card stat ${estado === r.estado ? 'sel' : ''}`}
+          <Card as="button" key={r.estado} className={`stat ${estado === r.estado ? 'sel' : ''}`}
             onClick={() => { setEstado(estado === r.estado ? '' : r.estado); setPage(1) }}>
             <span className={`dot ${r.estado}`} /> <strong>{r.cantidad}</strong> <small>{r.estado}</small>
-          </button>
+          </Card>
         ))}
       </div>
       <Card>

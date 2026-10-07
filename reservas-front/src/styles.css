@@ -1,4 +1,3 @@
-select.estado{width:auto;padding:4px 8px;border-radius:99px;font-size:.85rem;border:1px solid var(--bg2)}
 .rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:20px}
 .room h3{margin:0 0 6px;color:var(--primary);font-family:Georgia,serif}.room p{margin:4px 0;color:var(--muted)}
 .room .total{color:var(--text);margin-bottom:12px}

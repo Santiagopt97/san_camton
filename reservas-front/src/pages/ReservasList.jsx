@@ -30,9 +30,7 @@ export default function ReservasList() {
     { header: 'Salida', cell: (r) => r.fechaSalida },
     { header: 'Total', cell: (r) => cop(r.total) },
     { header: 'Estado', cell: (r) => (
-      <select className="estado" value={r.estado} onChange={(e) => cambiar(r, e.target.value)}>
-        {ESTADOS.map((s) => <option key={s}>{s}</option>)}
-      </select>
+      <Select className="estado" value={r.estado} onChange={(e) => cambiar(r, e.target.value)} options={ESTADOS} />
     ) },
     { header: '', className: 'actions', cell: (r) => <Link to={`/reservas/${r.id}`}>Editar</Link> },
   ]

@@ -52,3 +52,4 @@ td{padding:10px;border-bottom:1px solid var(--bg2)}
 .table-wrap{overflow-x:auto}
 label.has-error input,label.has-error select,label.has-error textarea{border-color:var(--err)}
 .field-error{color:var(--err);font-size:.8rem;font-weight:400}
+select.estado{width:auto;padding:4px 8px;border-radius:99px;font-size:.85rem;border:1px solid var(--bg2)}
