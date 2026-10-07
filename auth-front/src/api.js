@@ -1,9 +1,6 @@
-const BASE = import.meta.env.VITE_API_URL
+import { fetchSeguro } from 'hotel-ui'
 
-async function fetchSeguro(url, opciones) {
-  try { return await fetch(url, opciones) }
-  catch { throw new Error('No se pudo conectar con el servidor. Verifica que esté en ejecución.') }
-}
+const BASE = import.meta.env.VITE_API_URL
 
 export async function login(email, password) {
   const res = await fetchSeguro(`${BASE}/api/auth/login`, {
