@@ -1,0 +1,27 @@
+{
+  "name": "hotel-ui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Librería de interfaz compartida por los fronts del sistema Hotel",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./theme.css": "./src/theme.css",
+    "./package.json": "./package.json"
+  },
+  "files": ["src"],
+  "scripts": { "test": "vitest run", "test:watch": "vitest" },
+  "peerDependencies": { "react": "^18.3.1", "react-dom": "^18.3.1" },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^25.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}
