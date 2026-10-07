@@ -21,6 +21,8 @@ public class Habitacion
     [Column("descripcion")] public string? Descripcion { get; set; }
     [Column("activo")] public bool Activo { get; set; } = true;
     [Column("creado_en")] public DateTime CreadoEn { get; set; } = DateTime.UtcNow;
+    // Se rellena al leer (no es una columna); lo usan el listado y el detalle
+    [NotMapped] public List<ImagenVista> Imagenes { get; set; } = [];
 }
 
 public class HabitacionDto
