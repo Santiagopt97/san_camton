@@ -29,8 +29,7 @@ var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "hotel-auth";
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "hotel-apis";
 var jwtExpira = int.TryParse(Environment.GetEnvironmentVariable("JWT_EXPIRA_MINUTOS"), out var m) ? m : 120;
-var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http://localhost:5173")
-    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+var corsOrigins = Origenes.Parsear(Environment.GetEnvironmentVariable("CORS_ORIGINS"), Origenes.TodosLosFronts);
 b.Services.AddDbContext<AuthDbContext>(o => o.UseNpgsql(connStr));
 b.Services.AddControllers();
 b.Services.AddEndpointsApiExplorer();

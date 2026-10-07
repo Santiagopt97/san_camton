@@ -44,7 +44,7 @@ cd reservas-api && dotnet restore && dotnet run --urls http://localhost:5004
 ```
 
 ### 4. Fronts
-Antes, en cada front: `cp .env.example .env` (define las URLs de las APIs; `VITE_AUTH_API_URL` es la de `auth-api`).
+Antes, en cada front: `cp .env.example .env` (define las URLs de las APIs). En los fronts de módulo, `VITE_AUTH_API_URL` es la URL de `auth-api` (por defecto `http://localhost:5001`); en `auth-front`, `VITE_API_URL` ya apunta a `auth-api`.
 ```bash
 cd auth-front && npm install && npm run dev
 cd clientes-front && npm install && npm run dev
