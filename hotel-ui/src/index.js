@@ -13,3 +13,4 @@ export { Field, Input, Textarea, Select, Checkbox, FormGrid, FormActions } from 
 export { createSession } from './session.js'
 export { useDebouncedEffect, useLoading } from './hooks.js'
 export * from './validators.js'
+export { default as Carousel } from './components/Carousel.jsx'
