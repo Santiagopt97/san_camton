@@ -23,28 +23,28 @@ services:
     image: hotel-auth-api:dev
     build: { context: ., dockerfile: docker/api.Dockerfile, args: { API_DIR: auth-api, ASSEMBLY: AuthApi } }
     env_file: ./auth-api/.env
-    ports: ["5001:8080"]
+    ports: ["127.0.0.1:5001:8080"]
 
   clientes-api:
     <<: *api
     image: hotel-clientes-api:dev
     build: { context: ., dockerfile: docker/api.Dockerfile, args: { API_DIR: clientes-api, ASSEMBLY: ClientesApi } }
     env_file: ./clientes-api/.env
-    ports: ["5002:8080"]
+    ports: ["127.0.0.1:5002:8080"]
 
   habitaciones-api:
     <<: *api
     image: hotel-habitaciones-api:dev
     build: { context: ., dockerfile: docker/api.Dockerfile, args: { API_DIR: habitaciones-api, ASSEMBLY: HabitacionesApi } }
     env_file: ./habitaciones-api/.env
-    ports: ["5003:8080"]
+    ports: ["127.0.0.1:5003:8080"]
 
   reservas-api:
     <<: *api
     image: hotel-reservas-api:dev
     build: { context: ., dockerfile: docker/api.Dockerfile, args: { API_DIR: reservas-api, ASSEMBLY: ReservasApi } }
     env_file: ./reservas-api/.env
-    ports: ["5004:8080"]
+    ports: ["127.0.0.1:5004:8080"]
 
   auth-front:
     <<: *front
@@ -55,7 +55,7 @@ services:
       args:
         FRONT_DIR: auth-front
         VITE_VARS: "VITE_API_URL=http://localhost:5001 VITE_CLIENTES_URL=http://localhost:5175 VITE_HABITACIONES_URL=http://localhost:5174 VITE_RESERVAS_URL=http://localhost:5176"
-    ports: ["5173:8080"]
+    ports: ["127.0.0.1:5173:8080"]
 
   habitaciones-front:
     <<: *front
@@ -66,7 +66,7 @@ services:
       args:
         FRONT_DIR: habitaciones-front
         VITE_VARS: "VITE_API_URL=http://localhost:5003 VITE_AUTH_URL=http://localhost:5173 VITE_AUTH_API_URL=http://localhost:5001"
-    ports: ["5174:8080"]
+    ports: ["127.0.0.1:5174:8080"]
 
   clientes-front:
     <<: *front
@@ -77,7 +77,7 @@ services:
       args:
         FRONT_DIR: clientes-front
         VITE_VARS: "VITE_API_URL=http://localhost:5002 VITE_AUTH_URL=http://localhost:5173 VITE_AUTH_API_URL=http://localhost:5001"
-    ports: ["5175:8080"]
+    ports: ["127.0.0.1:5175:8080"]
 
   reservas-front:
     <<: *front
@@ -88,7 +88,7 @@ services:
       args:
         FRONT_DIR: reservas-front
         VITE_VARS: "VITE_API_URL=http://localhost:5004 VITE_AUTH_URL=http://localhost:5173 VITE_AUTH_API_URL=http://localhost:5001"
-    ports: ["5176:8080"]
+    ports: ["127.0.0.1:5176:8080"]
 
   landing-front:
     <<: *front
@@ -99,4 +99,4 @@ services:
       args:
         FRONT_DIR: landing-front
         VITE_VARS: "VITE_API_URL=http://localhost:5003 VITE_APP_URL=http://localhost:5173"
-    ports: ["5177:8080"]
+    ports: ["127.0.0.1:5177:8080"]
