@@ -1,0 +1,13 @@
+**/node_modules
+**/bin
+**/obj
+**/dist
+.git
+.gitignore
+.superpowers
+docs
+db
+**/*.Tests
+**/.env
+**/.env.local
+**/.DS_Store

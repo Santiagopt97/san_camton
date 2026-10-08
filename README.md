@@ -62,6 +62,21 @@ Abrir http://localhost:5173 → login → Home → módulo Clientes.
 Usuarios de prueba (se crean solos si la tabla `usuarios` está vacía):
 `admin@hotel.com / Admin123*` y `recepcion@hotel.com / Recep123*`.
 
+## Docker
+
+Todo el sistema (4 APIs y 5 fronts) se puede levantar en contenedores, con los mismos puertos que en desarrollo.
+
+Requisitos: Docker Desktop y los `.env` de las 4 APIs (`auth-api`, `clientes-api`, `habitaciones-api`, `reservas-api`), creados a partir de cada `.env.example`. Detén antes los servidores de desarrollo para liberar los puertos 5001–5004 y 5173–5177.
+
+```bash
+docker compose up -d --build   # construye y arranca los 9 servicios
+docker compose ps              # deben quedar (healthy)
+docker compose logs -f habitaciones-api
+docker compose down            # apaga todo
+```
+
+La landing queda en http://localhost:5177 y el login en http://localhost:5173. Las APIs leen su `.env` en tiempo de ejecución (si lo cambias, `docker compose up -d` recrea el contenedor); los fronts llevan sus URLs grabadas al construir la imagen, así que apuntan a `localhost`. Ningún `.env` entra en las imágenes.
+
 ## Flujo de sesión (cookie HttpOnly)
 Login → `auth-api` valida con BCrypt, firma un JWT (solo `sub`, `role` y, si es huésped, `cliente_id`) y lo pone en la cookie
 `hotel_token` (`HttpOnly`, `SameSite=Lax`, `Secure` con HTTPS); responde **204 sin cuerpo**. El navegador no puede leer la cookie ni
